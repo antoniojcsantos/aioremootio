@@ -3,6 +3,24 @@
 _aioremootio_ is an asynchronous API client library for [Remootio](https://remootio.com/) written in Python 3 and 
 based on [asyncio](https://docs.python.org/3/library/asyncio.html) and [aiohttp](https://pypi.org/project/aiohttp/).
 
+## Fork required to fix issues with Home Assistant
+# Changes
+Have had to make changes to account for the aioremootio library dependancies being out of date and in conflict with those required by Home Assistant. Instructions on how to fix this were posted here https://community.home-assistant.io/t/remootio-garage-door-automation-new-product/110559/109 and here https://github.com/sam43434/remootio/issues/12.
+
+Instructions below to fix remootio to work with HA 7.3
+
+1. Go to github and fork the aioremootio repo https://github.com/ivgg-me/aioremootio
+2. Edit the requirements.txt file in your own aioremootio fork and change to below versions
+        aiohttp==3.8.5
+        pycryptodome==3.17
+        async-class==0.5.0
+        voluptuous==0.13.1
+3. Go to your HA /config/custom_components/remootio/
+4. Edit manifest.json file and change the line with requirements to look like the below, but change GITHUBUSERID to yours
+        "requirements": ["aioremootio @ git+https://github.com/GITHUBUSERID/aioremootio.git"],
+5. Don't redownload remootio HACS Otherwise you will overwrite your changes done in step 3
+6. Restart HA and you should be good to go
+
 ## Supported functionalities of the device
 
 With this client library is currently possible to listen to state changes of a [Remootio](https://remootio.com/) device, 
